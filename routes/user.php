@@ -126,7 +126,9 @@ Route::controller(ProductController::class)->prefix('user')->group(function () {
     Route::get('/getProductsForCategory/{id}', 'getProductsForCategory');
 });
 
-
+Route::controller(ProductController::class)->prefix('user')->group(function () {
+    Route::get('/product/viewDetails/{id}', 'viewDetails');
+});
 
 // WISHLIST
 Route::controller(WishlistController::class)->prefix('user')->group(function () {

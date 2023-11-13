@@ -47,7 +47,7 @@ public function myComments(){
 
     if(auth()->check()){
     $user_id=auth()->user()->id;
-    $myComments=Comment::where('user_id',$user_id)->get();
+    $myComments=Comment::where('user_id',$user_id)->paginate(6);
  
     return response()->json([
         'myComments'=>$myComments,

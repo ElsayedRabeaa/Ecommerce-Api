@@ -52,7 +52,7 @@ class OrderController extends Controller
 
     if(auth()->check()){
     $user_id=auth()->user()->id;
-    $myOrders=Order::where('user_id',$user_id)->get();
+    $myOrders=Order::where('user_id',$user_id)->paginate(6);
  
     return response()->json([
         'myOrders'=>$myOrders,

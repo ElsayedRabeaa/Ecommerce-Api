@@ -9,16 +9,26 @@ use Illuminate\Http\Request;
 class OrderController extends Controller
 {
     public function getOrders(){
-        $Orders=Order::all();
+        if( auth()->guard('admin')->check()){ 
+        $Orders=Order::paginate(6);
          return response()->json([
         'Orders'=>$Orders,
         'status'=> 1 ,
          ]); 
+        }
+        else{
+           return response()->json([
+             "status" => 0,
+             "message" => "You Arenot Authenticated",
+             
+         ]);
+         } 
     }
 
    
 
     public function desoryOrder($id){
+        if( auth()->guard('admin')->check()){ 
         $Order=Order::find($id);
         
         if(!$Order){
@@ -37,6 +47,14 @@ class OrderController extends Controller
             ]);
 
         }
+    }
+    else{
+       return response()->json([
+         "status" => 0,
+         "message" => "You Arenot Authenticated",
+         
+     ]);
+     } 
 
     }   
    

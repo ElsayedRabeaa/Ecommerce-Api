@@ -92,9 +92,10 @@ class UserAuthController extends Controller
   public function updateProfile(Request $request)
   {
     if( auth()->check()){
+        $user_id=auth()->guard('user')->user()->id;
+        $user=user::where('id',$user_id)->first();
       if($request->email == null && $request->password != null ){
-        $user_id=auth()->user()->id;
-        $user=User::where('id',$user_id)->first();
+        
 
         $user->update([
          'password'=>$request->password
@@ -105,16 +106,35 @@ class UserAuthController extends Controller
           "message" => "password Changed"
       ]);
     }
+      else if($request->email != null && $request->password == null ){
+        $user->update([
+         'email'=>$request->email
+        ]);
+      
+        return response()->json([
+          "status" => 1,
+          "message" => "email Changed"
+      ]); 
+    }
     else{
         $user->update([
-            'email'=>$request->email
+            'name'=>$request->name
            ]);
           return response()->json([
             "status" => 1,
-            "message" => "email Changed"
+            "message" => "Name Changed"
         ]); 
     }
 }
+else{
+  return response()->json([
+    "status" => 0,
+    "message" => "You Arenot Authenticated",
+    
+]);
+}
+
+  
   }
 
 

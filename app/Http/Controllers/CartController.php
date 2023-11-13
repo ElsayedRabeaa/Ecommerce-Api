@@ -53,7 +53,7 @@ class CartController extends Controller
 
         if(auth()->check()){
             $user_id = auth()->user()->id;
-            $cart=Cart::select('product_id','quantity')->where('user_id',$user_id)->get();
+            $cart=Cart::select('product_id','quantity')->where('user_id',$user_id)->paginate(6);
             return response()->json([
                 'data'=>$cart,
                 'status'=> 1 ,
@@ -95,7 +95,7 @@ class CartController extends Controller
         if(auth()->check()){
     
            $user_id = auth()->user()->id;
-           $carts=Cart::where('user_id',$user_id)->get();
+           $carts=Cart::where('user_id',$user_id)->paginate(6);
            return response()->json([
            'carts' => $carts,
            ]);

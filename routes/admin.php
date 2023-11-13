@@ -43,7 +43,7 @@ Route::controller(CartController::class)->middleware('auth:admin')->prefix('admi
     Route::post('/desoryCart/{id}', 'desoryCart');
 });
 // CATEGORIES
-Route::controller(CategoryController::class)->middleware('auth:admin')->prefix('admin')->group(function () {
+Route::controller(CategoryController::class)->prefix('admin')->group(function () {
     Route::get('/getCats', 'getCats');
     Route::post('/storeCategory', 'storeCategory');
     Route::post('/updateCategory/{id}', 'updateCategory');

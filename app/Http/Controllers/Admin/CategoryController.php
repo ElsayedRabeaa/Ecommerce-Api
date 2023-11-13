@@ -10,15 +10,27 @@ use Illuminate\Support\Facades\Validator;
 class CategoryController extends Controller
 {
     public function getCats(){
-        $categories=Category::select('id','name','image')->get();
+
+        if( auth()->guard('admin')->check()){
+        $categories=Category::select('id','name','image')->paginate(6);
          return response()->json([
         'categories'=>$categories,
         'status'=> 1 ,
 
          ]); 
+        }
+        else{
+          return response()->json([
+            "status" => 0,
+            "message" => "You Arenot Authenticated",
+            
+        ]);
+        }
     }
 
     public function storeCategory(Request $request){
+        if( auth()->guard('admin')->check()){
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'image' => 'required|image|mimes:jpg,png,jpeg',
@@ -37,23 +49,40 @@ class CategoryController extends Controller
                 $extension = $file->extension();
                  $fileName = $name.'.'.$extension;
                 $file->move('ImagesCategories',$fileName);
-            };
-            Category::create([
+                
+                $NewCategory=Category::create([
                 'name' => $request->input('name'),
                 'desc' => $request->input('desc'),
                 'image' => $fileName,
             ]);
+
+            };
+            if($NewCategory){
+                return response()->json([
+                    'message'=>' Category Added Successfully',
+                    'status'=> 1 ,
+                ]);
+            
+            }
+            
         }
 
-        return response()->json([
-            'message'=>' Category Added Successfully',
-            'status'=> 1 ,
-        ]);
+       
+
+    }
+    else{
+      return response()->json([
+        "status" => 0,
+        "message" => "You Arenot Authenticated",
+        
+    ]);
+    }
     }
 
 
     public function updateCategory(Request $request,$id){
 
+        if( auth()->guard('admin')->check()){
 
         $Category=Category::find($id);
 
@@ -81,10 +110,21 @@ class CategoryController extends Controller
             ]);
 
         }
+
+    }
+    else{
+      return response()->json([
+        "status" => 0,
+        "message" => "You Arenot Authenticated",
+        
+    ]);
+    }
     }
 
 
     public function desoryCategory($id){
+        if( auth()->guard('admin')->check()){
+
         $Category=Category::find($id);
         if(!$Category){
             return response()->json([
@@ -103,6 +143,15 @@ class CategoryController extends Controller
         }
 
     }
-    
+
+    else{
+        return response()->json([
+          "status" => 0,
+          "message" => "You Arenot Authenticated",
+          
+      ]);
+      }
  
+}
+
 }

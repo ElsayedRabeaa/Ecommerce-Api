@@ -22,16 +22,30 @@ class WishlistController extends Controller
             'status'=>1,
         ]);
     }
+    else{
+        return response()->json([
+            'message'=>'you arenot authenticated',
+            'status'=> 0 ,
+
+        ]);
+    }
 }
 
 public function myWishlists(Request $request){
     if(auth()->check()){
     $user_id=auth()->user()->id;
-    $MyWishlists=Wishlist::where('user_id',$user_id)->get();
+    $MyWishlists=Wishlist::where('user_id',$user_id)->paginate(6);
  
     return response()->json([
         'MyWishlists'=>$MyWishlists,
         'status'=>1,
+    ]);
+}
+else{
+    return response()->json([
+        'message'=>'you arenot authenticated',
+        'status'=> 0 ,
+
     ]);
 }
 }
@@ -47,9 +61,9 @@ public function deleteFromWishlists($id){
             ]);
             
         }
-        $Product->delete($id);
+        $Wishlist->delete($id);
 
-        if($Product){
+        if($Wishlist){
             return response()->json([
                 'message' => 'Wishlist Delted',
                 'status'=>1
@@ -61,6 +75,14 @@ public function deleteFromWishlists($id){
         'status'=>1,
     ]);
 }
+else{
+    return response()->json([
+        'message'=>'you arenot authenticated',
+        'status'=> 0 ,
+
+    ]);
+}
+
 }
 
 

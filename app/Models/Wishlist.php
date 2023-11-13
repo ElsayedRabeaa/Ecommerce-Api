@@ -11,6 +11,6 @@ class Wishlist extends Model
     protected $guarded=[];
     protected $with=['product'];
     public function product(){
-        return $this->belongsTo(App\Models::Product,'product_id','id');
+        return $this->belongsTo(\App\Models\Product::class,'product_id','id');
     }
 }

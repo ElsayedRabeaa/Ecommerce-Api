@@ -13,6 +13,6 @@ class Category extends Model
     protected $with=['product'];
 
     public function product(){
-        return $this->belongsTo(App\Models::Product,'category_id','id');
+        return $this->belongsTo(App\Models\Product::class,'category_id','id');
     }
 }

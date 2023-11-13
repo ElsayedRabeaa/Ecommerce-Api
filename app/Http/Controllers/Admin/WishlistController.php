@@ -11,12 +11,23 @@ class WishlistController extends Controller
     
     public function getWishlists()
     {
-        $Wishlist=Wishlist::all();
+        if( auth()->guard('admin')->check()){ 
+        $Wishlist=Wishlist::paginate(6);
         return response()->json([
             'Wishlist'=>$Wishlist,
             'status'=>1
         ]);
     }
+    else{
+       return response()->json([
+         "status" => 0,
+         "message" => "You Arenot Authenticated",
+         
+     ]);
+     } 
+    }
+
+
 
     public function sendNotification()
     {

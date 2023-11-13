@@ -8,14 +8,24 @@ use App\Http\Controllers\Controller;
 class ProductController extends Controller
 {
     public function getProducts(){
-        $products=Product::all();
+        if(auth()->guard('admin')->check()){ 
+        $products=Product::paginate(6);
          return response()->json([
         'products'=>$products, 
         'status'=> 1 ,
          ]); 
+        }
+        else{
+           return response()->json([
+             "status" => 0,
+             "message" => "You Arenot Authenticated",
+             
+         ]);
+         } 
     }
 
     public function storetProduct(Request $request){
+        if( auth()->guard('admin')->check()){ 
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'desc' => 'required',
@@ -52,11 +62,20 @@ class ProductController extends Controller
             'status'=> 1 ,
 
         ]);
+
+    }
+    else{
+       return response()->json([
+         "status" => 0,
+         "message" => "You Arenot Authenticated",
+         
+     ]);
+     } 
     }
 
 
     public function updatetProduct(Request $request,$id){
-
+        if( auth()->guard('admin')->check()){ 
 
         $Product=Product::find($id);
 
@@ -85,11 +104,19 @@ class ProductController extends Controller
             ]);
 
         }
-
+    }
+    else{
+       return response()->json([
+         "status" => 0,
+         "message" => "You Arenot Authenticated",
+         
+     ]);
+     } 
     }
 
 
     public function desorytProduct($id){
+        if( auth()->guard('admin')->check()){ 
         $Product=Product::find($id);
 
         if(!$Product){
@@ -107,6 +134,13 @@ class ProductController extends Controller
                 'status'=>1
             ]);
         }
-
+    }
+    else{
+       return response()->json([
+         "status" => 0,
+         "message" => "You Arenot Authenticated",
+         
+     ]);
+     } 
     }
 }

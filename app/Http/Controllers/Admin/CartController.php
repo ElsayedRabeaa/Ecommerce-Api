@@ -8,16 +8,27 @@ use Illuminate\Http\Request;
 class CartController extends Controller
 {
     public function getCarts(){
-        $Cart=Cart::all();
+        if( auth()->guard('admin')->check()){
+        $Cart=Cart::paginate(6);
          return response()->json([
         'Cart'=>$Cart,
         'status'=> 1 ,
          ]); 
+        }
+        else{
+          return response()->json([
+            "status" => 0,
+            "message" => "You Arenot Authenticated",
+            
+        ]);
+        }
     }
 
    
 
     public function desoryCart($id){
+
+        if( auth()->guard('admin')->check()){
         $Cart=Cart::find($id);
 
         if(!$Cart){
@@ -27,9 +38,6 @@ class CartController extends Controller
             ]);
             
         }
-
-        
-
         if($Cart){
             $Cart->delete($id);
             return response()->json([
@@ -37,6 +45,15 @@ class CartController extends Controller
                 'status'=> 1 ,
             ]);
         }
+    }
+    else{
+      return response()->json([
+        "status" => 0,
+        "message" => "You Arenot Authenticated",
+        
+    ]);
+    
+    }
 
     }   
 }

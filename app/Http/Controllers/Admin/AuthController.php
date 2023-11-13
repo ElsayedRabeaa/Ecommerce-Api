@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use App\Models\User;
 class AuthController extends Controller
 {
   // Admin LOGIN API - POST
@@ -12,7 +13,7 @@ class AuthController extends Controller
   {
       // validation
       $request->validate([
-          "email" => "required|email",
+          "email" => "required|email|unique:admins",
           "password" => "required"
       ]);
 // verify user + token
@@ -71,7 +72,7 @@ class AuthController extends Controller
   public function deleteUser($id)
   {
     
-    $User=User::find($id);
+    $User=App\Models\User::find($id);
 
         if(!$User){
             return response()->json([
@@ -97,9 +98,10 @@ class AuthController extends Controller
     public function updateProfile(Request $request)
     {
       if( auth()->guard('admin')->check()){
-        if($request->email == null && $request->password != null ){
           $admin_id=auth()->guard('admin')->user()->id;
-          $admin=Admin::where('id',$user_id)->first();
+          $admin=Admin::where('id',$admin_id)->first();
+        if($request->email == null && $request->password != null ){
+          
   
           $admin->update([
            'password'=>$request->password
@@ -110,15 +112,35 @@ class AuthController extends Controller
             "message" => "password Changed"
         ]);
       }
+        else if($request->email != null && $request->password == null ){
+          $admin->update([
+           'email'=>$request->email
+          ]);
+        
+          return response()->json([
+            "status" => 1,
+            "message" => "email Changed"
+        ]); 
+      }
       else{
-          $user->update([
-              'email'=>$request->email
+          $admin->update([
+              'name'=>$request->name
              ]);
             return response()->json([
               "status" => 1,
-              "message" => "email Changed"
+              "message" => "Name Changed"
           ]); 
       }
   }
+  else{
+    return response()->json([
+      "status" => 0,
+      "message" => "You Arenot Authenticated",
+      
+  ]);
+  }
+
+
+
     }
 }
