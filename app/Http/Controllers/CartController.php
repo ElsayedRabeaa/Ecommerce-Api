@@ -30,7 +30,7 @@ class CartController extends Controller
                 'product_id'=>$product_id,
             ]);
             $product=ProductTrending::where('product_id',$product_id)->first();
-            if($product->exist()){
+            if($product){
                  $product->update([
                     'quantity'=>$quantity ,
                 ]);
