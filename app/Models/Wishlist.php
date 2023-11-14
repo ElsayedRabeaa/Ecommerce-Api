@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Product;
 
 class Wishlist extends Model
 {
@@ -11,6 +12,6 @@ class Wishlist extends Model
     protected $guarded=[];
     protected $with=['product'];
     public function product(){
-        return $this->belongsTo(\App\Models\Product::class,'product_id','id');
+        return $this->belongsTo(Product::class,'product_id','id');
     }
 }

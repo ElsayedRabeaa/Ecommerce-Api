@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Product;
 class Category extends Model
 {
     use HasFactory;
@@ -13,6 +13,6 @@ class Category extends Model
     protected $with=['product'];
 
     public function product(){
-        return $this->belongsTo(App\Models\Product::class,'category_id','id');
+        return $this->belongsTo(Product::class,'category_id','id');
     }
 }
