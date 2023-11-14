@@ -22,8 +22,8 @@ class CartController extends Controller
             $product_id = $request->input('product_id');
             $quantity = $request->input('quantity');
 
-            \DB::beginTransaction();
-            try {
+           /*  \DB::beginTransaction();
+            try { */
             Cart::create([
                 'user_id'=>$user_id ,
                 'quantity'=>$quantity ,
@@ -41,18 +41,18 @@ class CartController extends Controller
                     'product_id'=>$product_id,
                 ]);
             }
-            \DB::commit();
-            return response()->json([
+            /* \DB::commit(); */
+          /*   return response()->json([
                 'message'=>'product  added successfully',
                 'status'=> 1 ,
-            ]);
-        } catch (\Exception $e) {
+            ]); */
+       /*  } catch (\Exception $e) {
             \DB::rollback();
             return response()->json([
                 'message'=>'Error product Doesnot added ',
                 'status'=> 0 ,
             ]);
-        }
+        } */
 
             
 
