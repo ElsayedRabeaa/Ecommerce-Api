@@ -10,7 +10,7 @@ class ProductTrending extends Model
 {
     use HasFactory;
 
-
+     protected $table="product_trendings";
      protected $with=['product'];
 
     public function product(){
