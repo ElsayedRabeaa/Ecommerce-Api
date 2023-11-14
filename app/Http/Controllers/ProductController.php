@@ -13,14 +13,9 @@ class ProductController extends Controller
 {
     // show products
     public function getProducts(){
-        $products=Product::with("Comment")->paginate(6);
-        //relationship 
-        $review=$products->Comment->star->first();
-        $average=$review->sum('star') / $review->count();
-
+        $products=Product::paginate(6);
         return response()->json([
             'products'=>$products,
-            'total_rate'=>round($average,1),
              'status'=>1
         ]);
     }
@@ -29,16 +24,6 @@ class ProductController extends Controller
         // show getProductsForCategory
     public function getProductsForCategory($id){
         $products=Product::where('category_id',$id)->paginate(6);
-
-        // $review=$products->Comment->star->first();
-        // $average=$review->sum('star') / $review->count();
-
-        // return response()->json([
-        //     'products'=>$products,
-        //     'total_rate'=>round($average,1),
-        //      'status'=>1
-        // ]);
-
 
         return response()->json([
             'products'=>$products,

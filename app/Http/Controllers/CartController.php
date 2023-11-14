@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\ProductTrending;
 use Illuminate\Http\Request;
 use App\Http\Requests\AddToCartRequest;
+
 class CartController extends Controller
 {
 
@@ -20,16 +22,42 @@ class CartController extends Controller
             $product_id = $request->input('product_id');
             $quantity = $request->input('quantity');
 
+            \DB::beginTransaction();
+            try {
             Cart::create([
                 'user_id'=>$user_id ,
                 'quantity'=>$quantity ,
                 'product_id'=>$product_id,
             ]);
+            $product=ProductTrending::where('product_id',$product_id)->first();
+            if($product->exist()){
+                 $product->update([
+                    'quantity'=>$quantity ,
+                ]);
 
+            }else{
+                ProductTrending::create([
+                    'quantity'=>$quantity ,
+                    'product_id'=>$product_id,
+                ]);
+            }
+            DB::commit();
             return response()->json([
                 'message'=>'product  added successfully',
                 'status'=> 1 ,
             ]);
+        } catch (\Exception $e) {
+            \DB::rollback();
+            return response()->json([
+                'message'=>'Error product Doesnot added ',
+                'status'=> 1 ,
+            ]);
+        }
+
+            
+
+
+
 
             if(Cart::where('user_id',$user_id)->where('product_id',$product_id)->exists()){
                 return response()->json([
@@ -45,6 +73,9 @@ class CartController extends Controller
 
             ]);
         }
+
+
+
 
     }
 
