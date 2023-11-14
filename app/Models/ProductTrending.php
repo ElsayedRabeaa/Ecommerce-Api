@@ -9,6 +9,7 @@ use App\Models\Product;
 class ProductTrending extends Model
 {
     use HasFactory;
+    protected $guarded=[];
 
      protected $table="product_trendings";
      protected $with=['product'];
