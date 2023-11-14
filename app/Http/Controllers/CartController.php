@@ -32,11 +32,12 @@ class CartController extends Controller
             $product=ProductTrending::where('product_id',$product_id)->first();
             if($product){
                 $quantitiesTotal=ProductTrending::select("quantity")->get();
-                foreach($quantitiesTotal as $quantityTotal){
+                return $quantitiesTotal;
+                /* foreach($quantitiesTotal as $quantityTotal){
                     $product->update([
                         'quantity'=>$quantity + $quantityTotal,
                     ]);
-                }
+                } */
             }
             else if(!$product){
                 ProductTrending::create([
