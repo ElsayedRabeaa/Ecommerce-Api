@@ -41,7 +41,7 @@ class CartController extends Controller
                     'product_id'=>$product_id,
                 ]);
             }
-            DB::commit();
+            \DB::commit();
             return response()->json([
                 'message'=>'product  added successfully',
                 'status'=> 1 ,
@@ -50,7 +50,7 @@ class CartController extends Controller
             \DB::rollback();
             return response()->json([
                 'message'=>'Error product Doesnot added ',
-                'status'=> 1 ,
+                'status'=> 0 ,
             ]);
         }
 
