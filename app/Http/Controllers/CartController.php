@@ -60,13 +60,13 @@ class CartController extends Controller
 
 
 
-            if(Cart::where('user_id',$user_id)->where('product_id',$product_id)->exists()){
+           /*  if(Cart::where('user_id',$user_id)->where('product_id',$product_id)->exists()){
                 return response()->json([
                     'message'=>'the product is exist already',
                     'status'=> 0 ,
                 ]);
             }
-            }
+            } */
            else{
             return response()->json([
                 'message'=>'you arenot authenticated',
