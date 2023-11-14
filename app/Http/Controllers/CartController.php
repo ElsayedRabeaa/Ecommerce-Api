@@ -31,8 +31,9 @@ class CartController extends Controller
             ]);
             $product=ProductTrending::where('product_id',$product_id)->first();
             if($product){
+                $quantityTotal=$product->quantity->get();
                  $product->update([
-                    'quantity'=>$quantity ,
+                    'quantity'=>$quantity + $quantityTotal,
                 ]);
 
             }
