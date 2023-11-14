@@ -35,7 +35,8 @@ class CartController extends Controller
                     'quantity'=>$quantity ,
                 ]);
 
-            }else{
+            }
+            else if(!$product){
                 ProductTrending::create([
                     'quantity'=>$quantity ,
                     'product_id'=>$product_id,
