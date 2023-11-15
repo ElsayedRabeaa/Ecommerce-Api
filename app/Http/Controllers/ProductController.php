@@ -34,7 +34,8 @@ class ProductController extends Controller
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public function viewDetails($id){
-        $products=Product::where('id',$id)->first();
+        if(auth()->check()){  
+        $product=Product::where('id',$id)->first();
         $review=Comment::where('product_id',$id)->first();
         $average=$review->sum('star') / $review->count();
 
@@ -43,11 +44,29 @@ class ProductController extends Controller
             'total_rate'=>round($average,1),
              'status'=>1
         ]);
-    }
+       }
 
+       
+        else{
+            return response()->json([
+                'message'=>'you arenot authenticated',
+                'status'=> 0 ,
+
+            ]);
+        }
+
+
+}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public function topRatedProducts($type){
+    public function topRatedProducts(){
+        $Comments=Comment::select('total_rate')->get();
+
+        foreach($Comments as $Comment){
+            $ProductHaveComment=
+            $average=$Comment->sum('star') / $Comment->count();
+        }
+
 
         // sum star products
         $products=Comment::where('category_id',$id)->paginate(6);
@@ -61,7 +80,7 @@ class ProductController extends Controller
 
     public function bestSeller(){
         // sum order product
-        $order=Order::where('category_id',$id)->paginate(6);
+        $products=Cart::groupBy('total_rate')->ordededBy('total_rate','desc')->paginate(6);
         return response()->json([
             'products'=>$products,
              'status'=>1

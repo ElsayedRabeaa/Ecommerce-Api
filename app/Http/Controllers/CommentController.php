@@ -37,6 +37,13 @@ class CommentController extends Controller
          'status'=>1
         ]);
     }
+    else{
+        return response()->json([
+            'message'=>'you arenot authenticated',
+            'status'=> 0 ,
+
+        ]);
+    }
 
 }
 
@@ -55,6 +62,14 @@ public function myComments(){
     ]);
 
     } 
+    else{
+        return response()->json([
+            'message'=>'you arenot authenticated',
+            'status'=> 0 ,
+
+        ]);
+    }
+
    }
    
 

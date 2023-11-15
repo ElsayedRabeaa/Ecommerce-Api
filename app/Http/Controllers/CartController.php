@@ -14,7 +14,7 @@ class CartController extends Controller
 {
 
 
-    public function addtoCart(Request $request){
+    public function addtoCart(AddToCartRequest $request){
 
         if(auth()->guard('user')->check()){
 
@@ -22,54 +22,38 @@ class CartController extends Controller
             $product_id = $request->input('product_id');
             $quantity = $request->input('quantity');
 
-           /*  \DB::beginTransaction();
-            try { */
+            //  $quantity = $request->input('adding_number');
+    
+
             Cart::create([
                 'user_id'=>$user_id ,
                 'quantity'=>$quantity ,
                 'product_id'=>$product_id,
+
+                // 'adding_number'=> 1++
+
             ]);
-            $product=ProductTrending::where('product_id',$product_id)->first();
-            if($product){
-                $quantitiesTotal=ProductTrending::get();
-                return $quantitiesTotal;
-                /* foreach($quantitiesTotal as $quantityTotal){
-                    $product->update([
-                        'quantity'=>$quantity + $quantityTotal,
-                    ]);
-                } */
-            }
-            else if(!$product){
-                ProductTrending::create([
-                    'quantity'=>$quantity ,
-                    'product_id'=>$product_id,
-                ]);
-            }
-            /* \DB::commit(); */
-          /*   return response()->json([
+
+           /*  if($product_id){
+                $product=Cart::where('product_id',$product_id)->first();
+                $product->update([
+                     'adding_number'=> 1++
+                ])
+            } */
+           
+            return response()->json([
                 'message'=>'product  added successfully',
                 'status'=> 1 ,
-            ]); */
-       /*  } catch (\Exception $e) {
-            \DB::rollback();
-            return response()->json([
-                'message'=>'Error product Doesnot added ',
-                'status'=> 0 ,
-            ]);
-        } */
+            ]); 
+        
 
-            
-
-
-
-
-           /*  if(Cart::where('user_id',$user_id)->where('product_id',$product_id)->exists()){
+            if(Cart::where('user_id',$user_id)->where('product_id',$product_id)->exists()){
                 return response()->json([
                     'message'=>'the product is exist already',
                     'status'=> 0 ,
                 ]);
             }
-            } */
+            } 
            else{
             return response()->json([
                 'message'=>'you arenot authenticated',
@@ -81,7 +65,7 @@ class CartController extends Controller
     }
 
 
-    }
+    
 
 
     public function checkoutCart(){

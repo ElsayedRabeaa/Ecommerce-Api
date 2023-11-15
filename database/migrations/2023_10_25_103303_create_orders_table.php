@@ -18,9 +18,8 @@ return new class extends Migration
             $table->string('phone');
             $table->string('street');
             $table->foreignId('cart_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->enum('status',['pending','reseved'])->default('pending');
-            $table->enum('payment_type',['vodafone_cash','paypal']);
-            $table->string('price');
+          
+            $table->decimal('price',8,2);
             $table->timestamps();
         });
     }

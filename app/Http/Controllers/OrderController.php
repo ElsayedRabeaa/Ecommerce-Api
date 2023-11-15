@@ -44,6 +44,14 @@ class OrderController extends Controller
 
                 ]);
     }
+    else{
+        return response()->json([
+            'message'=>'you arenot authenticated',
+            'status'=> 0 ,
+
+        ]);
+    }
+
 }
 
 
@@ -59,7 +67,14 @@ class OrderController extends Controller
         'status'=>1,
     ]);
 
-    } 
+    } else{
+        return response()->json([
+            'message'=>'you arenot authenticated',
+            'status'=> 0 ,
+
+        ]);
+    }
+
    }
 
    public function deletemyOrder($id){
