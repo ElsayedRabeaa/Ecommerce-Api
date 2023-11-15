@@ -1,14 +1,20 @@
 <html>
 <head>
-    <title>payment</title>
-    @paddleJS
+    <title>login</title>
+   
 </head>
 
 
 <body>
-    <x-paddle-button :url="$payLink" class="px-8 py-4" >
-        Subscribe
-    </x-paddle-button>
+
+<form method="post" action={{url("auth/admin/login")}}>
+@csrf
+<input type="email" name="email">
+<input type="password" name="password">
+<button type="submit">login</button>
+</form>
+
+
 </body>
 
 
