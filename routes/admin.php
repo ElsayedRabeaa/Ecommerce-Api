@@ -26,7 +26,7 @@ WishlistController
 
 
 
-Route::controller(AuthController::class)->prefix('admin')->group(function () {
+Route::controller(AuthController::class)->prefix('auth')->group(function () {
     Route::post('/login', 'login');
     Route::post('/logout', 'logout');
     Route::get('/profile', 'profile');
