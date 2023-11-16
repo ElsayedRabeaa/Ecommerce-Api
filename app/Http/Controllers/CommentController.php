@@ -29,6 +29,7 @@ class CommentController extends Controller
                 'star' =>$star,
                 'user_id' => $user,
                 'product_id' =>$product_id,
+                'total_rate' =>$request->total_rate, 
             ]);
         }
 
