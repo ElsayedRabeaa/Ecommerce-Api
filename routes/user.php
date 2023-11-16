@@ -29,7 +29,7 @@ Route::get('test',function(){
  //storeproject.test:80
 
 // USER AUTH ROUTES
-Route::controller(UserAuthController::class)->prefix('auth/user')->group(function(){
+Route::controller(UserAuthController::class)->prefix('user')->group(function(){
     Route::post('/register', 'register');
     Route::post('/login', 'login');
     Route::post('/logout', 'logout');
