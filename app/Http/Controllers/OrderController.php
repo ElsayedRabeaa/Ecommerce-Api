@@ -11,7 +11,7 @@ class OrderController extends Controller
     public function addOrder(Request $request){
         if(auth()->check()){
         $validator = Validator::make($request->all(), [
-            'userName' => 'required',
+            // 'userName' => 'required',
             'address' => 'required',
             'phone' => 'required|numeric',
             'street' => 'required',
@@ -25,8 +25,8 @@ class OrderController extends Controller
                 'errors' => $validator->errors(),
             ]);
         }else{
-            $order=Order::create([
-                 'userName' =>$request->input('userName'),
+                Order::create([
+                //  'userName' =>$request->input('userName'),
                  'address' =>$request->input('address'),
                  'phone' =>$request->input('phone'),
                  'street' =>$request->input('street'),
