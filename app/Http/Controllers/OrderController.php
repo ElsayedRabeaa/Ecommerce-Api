@@ -25,8 +25,8 @@ class OrderController extends Controller
                 'errors' => $validator->errors(),
             ]);
         }else{
-                Order::create([
-                //  'userName' =>$request->input('userName'),
+                $order=Order::create([
+                 'user_id' =>$order->user()->name,
                  'address' =>$request->input('address'),
                  'phone' =>$request->input('phone'),
                  'street' =>$request->input('street'),
