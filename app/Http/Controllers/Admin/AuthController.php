@@ -13,7 +13,7 @@ class AuthController extends Controller
   {
       // validation
       $request->validate([
-          "email" => "required|email|unique:admins",
+          "email" => "required|email",
           "password" => "required"
       ]);
 // verify user + token
