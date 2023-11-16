@@ -15,7 +15,6 @@ class OrderController extends Controller
             'address' => 'required',
             'phone' => 'required|numeric',
             'street' => 'required',
-            'status' => 'required',
             'cart_id' => 'required',
             'payment_type' => 'required',
             'price' => 'required|numeric',
@@ -26,7 +25,7 @@ class OrderController extends Controller
                 'errors' => $validator->errors(),
             ]);
         }else{
-            Order::create([
+            $order=Order::create([
                  'userName' =>$request->input('userName'),
                  'address' =>$request->input('address'),
                  'phone' =>$request->input('phone'),

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('phone');
             $table->string('street');
             $table->foreignId('cart_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-          
             $table->decimal('price',8,2);
             $table->timestamps();
         });
