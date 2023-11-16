@@ -26,7 +26,7 @@ class OrderController extends Controller
             ]);
         }else{
                 $order=Order::create([
-                 'user_id' =>$order->user()->name,
+                 'user_id' =>1,
                  'address' =>$request->input('address'),
                  'phone' =>$request->input('phone'),
                  'street' =>$request->input('street'),
