@@ -123,6 +123,10 @@ Route::controller(ProductController::class)->prefix('user')->group(function () {
 });
 
 Route::controller(ProductController::class)->prefix('user')->group(function () {
+    Route::get('/SearchtProducts', 'SearchtProducts');
+});
+
+Route::controller(ProductController::class)->prefix('user')->group(function () {
     Route::get('/getProductsForCategory/{id}', 'getProductsForCategory');
 });
 

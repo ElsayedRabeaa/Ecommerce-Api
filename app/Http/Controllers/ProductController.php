@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Spatie\QueryBuilder\QueryBuilder;
 class ProductController extends Controller
 {
     // show products
@@ -93,17 +94,28 @@ class ProductController extends Controller
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public function searchProductORCategory(){
-        // sum order product
-       /*   if($request->keywork )
-        $order=Order::where('category_id',$id)->paginate(6);
+    public function SearchtProducts(){
+    if(auth()->check()){  
+    $products = QueryBuilder::for(Product::class)
+    ->allowedFilters('name')
+    ->get();
+    return response()->json([
+        'products'=>$products,
+         'status'=>1
+    ]);
+    } 
+    else{
         return response()->json([
-            'products'=>$products,
-             'status'=>1
+            'message'=>'you arenot authenticated',
+            'status'=> 0 ,
+
         ]);
-    } */
+    }
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
-}
+
+
