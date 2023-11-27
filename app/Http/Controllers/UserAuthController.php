@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
-
-use App\Models\users;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -18,12 +16,28 @@ class UserAuthController extends Controller
          "email" => "required|email|unique:users",
          "password" => "required"
      ]);
-// create user data + save
-     $user = new User();
-     $user->name = $request->name;
-     $user->email = $request->email;
-     $user->password = bcrypt($request->password);
-    $user->save();
+// create user data + save  
+    if($request->has('image')){
+      $file = $request->file('image');
+      $name = time();
+      $extension = $file->extension();
+      $fileName = $name.'.'.$extension;
+      $file->move('ImagesUsers',$fileName);
+      $user = new User();
+      $user->name = $request->name;
+      $user->email = $request->email;
+      $user->password = bcrypt($request->password);
+      $user->image = $fileName;
+     $user->save();
+    }else{
+      $user = new User();
+      $user->name = $request->name;
+      $user->email = $request->email;
+      $user->password = bcrypt($request->password);
+     $user->save();
+
+    }
+    
 // send response
      return response()->json([
          "status" => 1,
@@ -143,7 +157,7 @@ else{
   {
 
       if(auth()->check()){
-          $user_id = auth()->guard('user')->user()->id;
+          $user_id = auth()->user()->id;
           User::where('id',$user_id)->delete();
               return response()->json([
                   'message'=>'the Account DELETED successfully',
@@ -159,6 +173,54 @@ else{
               ]);
           }
   
+  }
+
+
+  public function addMyPhoto(Request $request){
+    if(auth()->check()){
+      //validate image
+      $this->$request->validate([
+        'image'=>'mimes:png,jpg,jpeg'
+      ]);
+      
+      $file = $request->file('image');
+      $name = time();
+      $extension = $file->extension();
+      $fileName = $name.'.'.$extension;
+      $file->move('ImagesUsers',$fileName);
+      
+      
+      // create image for this user
+      $user= User::create([
+        'image'=>$fileName,
+      ]);
+    }else{
+      return response()->json([
+          'message'=>'you arenot authenticated',
+          'status'=> 0 ,
+
+      ]);
+  }
+  
+  }
+    public function deleteMyPhoto(){
+      if(auth()->check()){
+
+        $user_id= User::where('id',auth()->user()->id)->first();
+        // check this user 
+        if($user_id) {
+        $user_id->image = null;
+        $user_id->save();
+      }
+
+      }else{
+        return response()->json([
+            'message'=>'you arenot authenticated',
+            'status'=> 0 ,
+
+        ]);
+    }
+    
   }
 
   

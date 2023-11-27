@@ -143,4 +143,54 @@ class AuthController extends Controller
 
 
     }
+
+
+
+    public function addMyPhoto(Request $request){
+      if(auth()->guard('admin')->check()){
+        //validate image
+        $this->$request->validate([
+          'image'=>'mimes:png,jpg,jpeg'
+        ]);
+
+        $file = $request->file('image');
+        $name = time();
+        $extension = $file->extension();
+        $fileName = $name.'.'.$extension;
+        $file->move('ImagesAdmins',$fileName);
+        
+        
+        // create image for this user
+        $admin= Admin::create([
+          'image'=>$fileName,
+        ]);
+        
+      }else{
+        return response()->json([
+            'message'=>'you arenot authenticated',
+            'status'=> 0 ,
+  
+        ]);
+    }
+    
+    }
+      public function deleteMyPhoto(){
+        if(auth()->check()){
+  
+          $admin_id= admin::where('id',auth()->guard('admin')->user()->id)->first();
+          // check this admin 
+          if($admin_id) {
+          $admin_id->image = null;
+          $admin_id->save();
+        }
+  
+        }else{
+          return response()->json([
+              'message'=>'you arenot authenticated',
+              'status'=> 0 ,
+  
+          ]);
+      }
+      
+    }
 }

@@ -36,6 +36,8 @@ Route::controller(UserAuthController::class)->prefix('user')->group(function(){
     Route::get('/profile', 'profile');
     Route::post('/updateProfile', 'updateProfile');
     Route::post('/deleteMyAccount', 'deleteMyAccount');
+    Route::post('/addMyPhoto', 'addMyPhoto');
+    Route::post('/deleteMyPhoto', 'deleteMyPhoto');
 });
 
 
